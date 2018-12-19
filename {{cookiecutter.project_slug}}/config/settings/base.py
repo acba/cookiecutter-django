@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import environ
 
 ROOT_DIR = environ.Path(__file__) - 3
-APPS_DIR = ROOT_DIR.path('{{ cookiecutter.project_name }}')
+APPS_DIR = ROOT_DIR.path('apps')
 
 env = environ.Env()
 
@@ -53,7 +53,7 @@ THIRD_PARTY_APPS = [
     'rest_framework',
 ]
 LOCAL_APPS = [
-    'apps.{{ cookiecutter.project_slug }}.users.apps.UsersAppConfig'
+    'apps.{{ cookiecutter.project_slug }}.users.apps.UsersAppConfig',
     'apps.api',
     'apps.{{ cookiecutter.project_slug }}'
 ]
@@ -67,6 +67,21 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 MIGRATION_MODULES = {
     'sites': 'apps.{{ cookiecutter.project_slug }}.contrib.sites.migrations'
 }
+
+
+# AUTHENTICATION
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/dev/ref/settings/#authentication-backends
+# AUTHENTICATION_BACKENDS = [
+#     'django.contrib.auth.backends.ModelBackend',
+#     'allauth.account.auth_backends.AuthenticationBackend',
+# ]
+# https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
+AUTH_USER_MODEL = 'users.User'
+# https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url
+# LOGIN_REDIRECT_URL = 'users:redirect'
+# https://docs.djangoproject.com/en/dev/ref/settings/#login-url
+# LOGIN_URL = 'account_login'
 
 # MIDDLEWARES
 # ------------------------------------------------------------------------------
@@ -85,20 +100,19 @@ MIDDLEWARE = [
 # ------------------------------------------------------------------------------
 ROOT_URLCONF = 'config.urls'
 
-
 # TEMPLATES
 # ------------------------------------------------------------------------------
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            # str(APPS_DIR.path('templates')),
-        ],
+        # 'DIRS': [
+        #     str(APPS_DIR.path('templates')),
+        # ],
         'APP_DIRS': True,
         'OPTIONS': {
             # https://docs.djangoproject.com/en/2.1/ref/settings/#template-debug
-            # 'debug': DEBUG,
+            'debug': DEBUG,
             # 'loaders': [
             #     'django.template.loaders.filesystem.Loader',
             #     'django.template.loaders.app_directories.Loader',
@@ -170,20 +184,18 @@ AUTH_PASSWORD_VALIDATORS = [
 STATIC_URL = '/static/'
 STATIC_ROOT = str(ROOT_DIR('staticfiles'))
 STATICFILES_DIRS = (
-    str(APPS_DIR.path('static')),
+    str(APPS_DIR.path('{{cookiecutter.project_slug}}/static')),
 )
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
-
 # MEDIA
 # ------------------------------------------------------------------------------
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = str(APPS_DIR('media'))
-
 
 # SECURITY
 # ------------------------------------------------------------------------------
@@ -192,7 +204,6 @@ SESSION_COOKIE_HTTPONLY = True
 CSRF_COOKIE_HTTPONLY = True
 SECURE_BROWSER_XSS_FILTER = True
 X_FRAME_OPTIONS = 'DENY'
-
 
 # ADMIN
 # ------------------------------------------------------------------------------

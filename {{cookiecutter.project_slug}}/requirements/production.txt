@@ -1,6 +1,7 @@
 -r ./base.txt
 
+gunicorn==19.9.0  # https://github.com/benoitc/gunicorn
+
 # Django
 # ------------------------------------------------------------------------------
-# Django==2.1.4 # https://www.djangoproject.com/
-# django-environ==0.4.5  # https://github.com/joke2k/django-environ
+django-redis==4.10.0  # https://github.com/niwinz/django-redis

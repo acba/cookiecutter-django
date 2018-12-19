@@ -187,12 +187,12 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/reposit
 RUN openssl genrsa -des3 -passout pass:x -out server.pass.key 2048 && \
     openssl rsa -passin pass:x -in server.pass.key -out server.key && \
     rm server.pass.key && \
-    openssl req -new -key server.key -out server.csr -subj "/C=BR/ST=PB/L=JOAO PESSOA/O=MPPB/OU=MPPB/CN={{ cookiecutter.project_name }}" && \
+    openssl req -new -key server.key -out server.csr -subj "/C=BR/ST=PB/L=JOAO PESSOA/O=MPPB/OU=MPPB/CN={{ cookiecutter.project_slug }}" && \
     openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
 
 RUN mkdir /etc/ssl/certs/private/ && \
-    cp server.crt /etc/ssl/certs/private/{{ cookiecutter.project_name }}.crt && \
-    cp server.key /etc/ssl/certs/private/{{ cookiecutter.project_name }}.key && \
+    cp server.crt /etc/ssl/certs/private/{{ cookiecutter.project_slug }}.crt && \
+    cp server.key /etc/ssl/certs/private/{{ cookiecutter.project_slug }}.key && \
     rm server.crt server.csr server.key
 
 RUN openssl dhparam -out /etc/ssl/certs/private/dhparam.pem 4096
@@ -202,13 +202,13 @@ RUN rm -rf /etc/nginx/conf.d/*
 COPY ./compose/production/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY ./compose/production/nginx/conf.d/brotli.conf /etc/nginx/conf.d/brotli.conf
 COPY ./compose/production/nginx/conf.d/gzip.conf /etc/nginx/conf.d/gzip.conf
-COPY ./compose/production/nginx/conf.d/{{ cookiecutter.project_name }}.http.conf /etc/nginx/conf.d/{{ cookiecutter.project_name }}.http.conf
+COPY ./compose/production/nginx/conf.d/{{ cookiecutter.project_slug }}.http.conf /etc/nginx/conf.d/{{ cookiecutter.project_slug }}.http.conf
 
 EXPOSE 80
 
 STOPSIGNAL SIGTERM
 
-RUN head /etc/nginx/conf.d/{{ cookiecutter.project_name }}.http.conf
+# RUN head /etc/nginx/conf.d/{{ cookiecutter.project_slug }}.http.conf
 # RUN nginx -t
 
 CMD ["nginx", "-g", "daemon off;"]

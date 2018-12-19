@@ -166,15 +166,23 @@ def set_flags_in_settings_files():
     set_django_secret_key(os.path.join("config", "settings", "local.py"))
     set_django_secret_key(os.path.join("config", "settings", "test.py"))
 
+def remove_docker_files():
+    shutil.rmtree("compose")
+
+    file_names = ["local.yml", "production.yml", ".dockerignore"]
+    for file_name in file_names:
+        os.remove(file_name)
 
 def main():
-    debug = "{{ cookiecutter.debug }}".lower() == "y"
-
     set_flags_in_envs(
-        DEBUG_VALUE if debug else generate_random_user(),
-        debug=debug,
+        generate_random_user()
     )
     set_flags_in_settings_files()
+
+    if "{{ cookiecutter.use_docker }}".lower() == "y":
+        remove_utility_files()
+    else:
+        remove_docker_files()
 
     print(SUCCESS + "Project initialized, keep up the good work!" + TERMINATOR)
 

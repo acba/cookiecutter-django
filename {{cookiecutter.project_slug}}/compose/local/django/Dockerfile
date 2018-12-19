@@ -46,7 +46,6 @@ RUN apt-get update \
 
 {% endif %}
 
-
 RUN apt-get update \
     # Pillow dependencies
     && apt-get install -y libjpeg-dev zlib1g-dev libfreetype6-dev liblcms2-dev libtiff-dev tk-dev tcl-dev \
