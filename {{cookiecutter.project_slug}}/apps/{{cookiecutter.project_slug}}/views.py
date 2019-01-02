@@ -5,10 +5,10 @@ from django.shortcuts import render
 ##
 
 def cover(request):
-    return render(request, 'cover.html')
+    return render(request, 'pages/cover.html')
 
 def sobre(request):
-    return render(request, 'sobre.html')
+    return render(request, 'pages/sobre.html')
 
 
 ##
@@ -16,4 +16,4 @@ def sobre(request):
 ##
 
 def home(request):
-    return render(request, 'home.html')
+    return render(request, 'pages/home.html')

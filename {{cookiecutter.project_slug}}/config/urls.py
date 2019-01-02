@@ -26,11 +26,17 @@ urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
     path('robots.txt', lambda r: HttpResponse("User-agent: *\nDisallow: /", content_type="text/plain")),
 
+    # Gerenciamento de usuários
+    path("users/", include("apps.{{ cookiecutter.project_slug }}.users.urls", namespace="users")),
+    path("accounts/", include("allauth.urls")),
+
     # Rotas principais
     path('', include('apps.{{ cookiecutter.project_slug }}.urls')),
 
     # Rota Servidor REST
     path('api/', include('apps.api.urls')),
+
+     # APPS
 
 ] + static(
     settings.MEDIA_URL, document_root=settings.MEDIA_ROOT

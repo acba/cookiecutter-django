@@ -1,64 +1,26 @@
 {% raw %}
-  {% load staticfiles %}
+  {% extends 'cover.base.html' %}
+
+  {% block content %}
 {% endraw %}
 
-<!doctype html>
-<html lang="pt-br">
-  <head>
-    <meta charset="utf-8">
-    <meta name="robots" content="noindex, nofollow">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<div class="text-center white-text mx-5 wow fadeIn">
+  <h1 class="mb-4">
+    <strong>{{ cookiecutter.project_name }}</strong>
+  </h1>
 
-    {% raw %}
-      <link rel="icon" href="{% static 'images/favicons/favicon.ico' %}">
-    {% endraw %}
+  <p>
+    <strong>{{ cookiecutter.description }}</strong>
+  </p>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+{% raw %}
+  {% if request.user.is_authenticated %}
+    <a class="btn btn-outline-white btn-lg" href="{% url 'home' %}">Começar <i class="fas fa-sign-in-alt ml-2"></i></a>
+  {% else %}
+    <a class="btn btn-outline-white btn-lg" href="{% url 'account_login' %}">Entrar <i class="fas fa-sign-in-alt ml-2"></i></a>
+  {% endif %}
+</div>
 
-    {% raw %}
-    <link href="{% static 'css/cover.css' %}" rel="stylesheet" type="text/css">
-    {% endraw %}
+  {% endblock %}
 
-    <title>{{ cookiecutter.project_name }} - LABLD/GAECO</title>
-  </head>
-  <body class="text-center">
-
-    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
-      <header class="masthead mb-auto">
-        <div class="inner">
-          <!-- <h3 class="masthead-brand"><i class="fas fa-crosshairs"></i> Mapa de Riscos</i></h3> -->
-          <nav class="nav nav-masthead justify-content-center">
-            {% raw %}
-              <a class="nav-link active" href="{% url 'cover' %}">Home</a>
-              <a class="nav-link" href="{% url 'sobre' %}">Sobre</a>
-            {% endraw %}
-          </nav>
-        </div>
-      </header>
-
-      <main role="main" class="inner cover">
-        <h1 class="cover-heading">{{ cookiecutter.project_name }}</h1>
-        <p class="lead">{{ cookiecutter.description }}</p>
-        <p class="lead">
-          {% raw %}
-            {% if request.user.is_authenticated %}
-              <a class="btn btn-lg btn-secondary" href="{% url 'home' %}">Começar</a>
-            {% else %}
-              <a class="btn btn-lg btn-secondary" href="{% url 'account_login' %}">Entrar</a>
-            {% endif %}
-          {% endraw %}
-        </p>
-      </main>
-
-      <footer class="mastfoot mt-auto">
-        <div class="inner">
-          <p>LABLD/GAECO</p>
-        </div>
-      </footer>
-    </div>
-
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  </body>
-</html>
+{% endraw %}

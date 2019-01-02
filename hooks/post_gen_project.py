@@ -179,10 +179,10 @@ def main():
     )
     set_flags_in_settings_files()
 
-    if "{{ cookiecutter.use_docker }}".lower() == "y":
-        remove_utility_files()
-    else:
-        remove_docker_files()
+    # if "{{ cookiecutter.use_docker }}".lower() == "y":
+    #     remove_utility_files()
+    # else:
+    #     remove_docker_files()
 
     print(SUCCESS + "Project initialized, keep up the good work!" + TERMINATOR)
 

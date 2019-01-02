@@ -1,34 +1,28 @@
 {% raw %}{% extends "base.html" %}
 {% load static %}
 
+{% block heading %}{% endblock heading %}
+
 {% block content %}
-<div class="container">
 
-  <div class="row">
-    <div class="col-sm-12">
+<!--Grid row-->
+<div class="row wow fadeIn">
+  <div class="col-md-12 mb-4">
+    <div class="card">
+      <div class="card-body">
+        <h2>{{ object.username }}</h2>
+        {% if object.name %}
+          <p>{{ object.name }}</p>
+        {% endif %}
 
-      <h2>{{ object.username }}</h2>
-      {% if object.name %}
-        <p>{{ object.name }}</p>
-      {% endif %}
+        {% if object == request.user %}
+          <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">Perfil</a>
+          <a class="btn btn-primary" href="{% url 'account_email' %}" role="button">E-Mail</a>
+        {% endif %}
+      </div>
     </div>
   </div>
-
-{% if object == request.user %}
-<!-- Action buttons -->
-<div class="row">
-
-  <div class="col-sm-12">
-    <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">My Info</a>
-    <a class="btn btn-primary" href="{% url 'account_email' %}" role="button">E-Mail</a>
-    <!-- Your Stuff: Custom user template urls -->
-  </div>
-
 </div>
-<!-- End Action buttons -->
-{% endif %}
 
-
-</div>
 {% endblock content %}
 {% endraw %}
