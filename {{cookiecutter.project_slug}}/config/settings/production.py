@@ -40,3 +40,24 @@ SECURE_CONTENT_TYPE_NOSNIFF = env.bool('DJANGO_SECURE_CONTENT_TYPE_NOSNIFF', def
 # Gunicorn
 # ------------------------------------------------------------------------------
 INSTALLED_APPS += ['gunicorn']  # noqa F405
+
+
+{% if cookiecutter.production_sgbd.lower() == 'sqlserver' -%}
+#
+## SQL SERVER
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'sql_server.pyodbc',
+        'NAME': 'maparisco',
+        'USER': 'maparisco',
+        'PASSWORD': '$M@paR1$c0#',
+        'HOST': '10.128.24.10',
+        'PORT': '',
+        'OPTIONS': {
+            'driver': 'ODBC Driver 17 for SQL Server',
+        },
+    }
+}
+
+{%- endif %}

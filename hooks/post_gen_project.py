@@ -173,16 +173,17 @@ def remove_docker_files():
     for file_name in file_names:
         os.remove(file_name)
 
+def remove_utility_files():
+    shutil.rmtree(".scripts")
+
 def main():
     set_flags_in_envs(
         generate_random_user()
     )
     set_flags_in_settings_files()
 
-    # if "{{ cookiecutter.use_docker }}".lower() == "y":
-    #     remove_utility_files()
-    # else:
-    #     remove_docker_files()
+    if "{{ cookiecutter.use_docker }}".lower() == "n":
+        remove_docker_files()
 
     print(SUCCESS + "Project initialized, keep up the good work!" + TERMINATOR)
 

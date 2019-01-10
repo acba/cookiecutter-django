@@ -19,7 +19,9 @@ services:
       - production_django:/app
     env_file:
       - ./.envs/.production/.django
+      {%- if cookiecutter.local_sgbd.lower() == 'postgres' %}
       - ./.envs/.production/.postgres
+      {%- endif %}
     ports:
       - "5000:5000"
     command: /start
