@@ -1,4 +1,5 @@
 argon2-cffi==18.3.0  # https://github.com/hynek/argon2_cffi
+pyOpenSSL==18.0.0
 
 # Django
 # ------------------------------------------------------------------------------

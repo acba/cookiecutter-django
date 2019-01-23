@@ -33,6 +33,15 @@ DATABASES = {
 
 {%- endif %}
 
+{% if cookiecutter.local_sgbd.lower() == 'sqlserver' -%}
+
+DATABASES = {
+    'default': env.db('DATABASE_URL'),
+}
+DATABASES['default']['ATOMIC_REQUESTS'] = True
+
+{%- endif %}
+
 
 # CACHES
 # ------------------------------------------------------------------------------

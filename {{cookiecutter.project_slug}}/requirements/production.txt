@@ -5,3 +5,18 @@ gunicorn==19.9.0  # https://github.com/benoitc/gunicorn
 # Django
 # ------------------------------------------------------------------------------
 django-redis==4.10.0  # https://github.com/niwinz/django-redis
+
+
+{% if cookiecutter.production_sgbd.lower() == 'sqlserver' %}
+
+# Conexão MS SQL Server
+# ------------------------------------------------------------------------------
+pyodbc==4.0.24
+django-pyodbc-azure==2.1.0.0
+
+{% endif %}
+
+
+{%- if cookiecutter.production_sgbd.lower() == 'postgres' %}
+psycopg2==2.7.4 --no-binary psycopg2  # https://github.com/psycopg/psycopg2
+{%- endif %}
