@@ -3,7 +3,8 @@ pyOpenSSL==18.0.0
 
 # Django
 # ------------------------------------------------------------------------------
-Django==2.1.4 # https://www.djangoproject.com/
+#Django==2.1.4 # https://www.djangoproject.com/
+Django==2.1.3 # https://www.djangoproject.com/
 django-environ==0.4.5  # https://github.com/joke2k/django-environ
 django-crispy-forms==1.7.2 # https://github.com/django-crispy-forms/django-crispy-forms
 django-allauth==0.38.0  # https://github.com/pennersr/django-allauth
