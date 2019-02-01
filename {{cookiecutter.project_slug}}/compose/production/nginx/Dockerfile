@@ -203,6 +203,7 @@ COPY ./compose/production/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY ./compose/production/nginx/conf.d/brotli.conf /etc/nginx/conf.d/brotli.conf
 COPY ./compose/production/nginx/conf.d/gzip.conf /etc/nginx/conf.d/gzip.conf
 COPY ./compose/production/nginx/conf.d/{{ cookiecutter.project_slug }}.http.conf /etc/nginx/conf.d/{{ cookiecutter.project_slug }}.http.conf
+COPY ./compose/production/nginx/conf.d/redirect.https.conf /etc/nginx/conf.d/redirect.https.conf
 
 EXPOSE 80
 
