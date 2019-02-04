@@ -13,17 +13,17 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
 ]
 
-{% if cookiecutter.local_sgbd.lower() == 'sqlserver' -%}
-#
+{% if cookiecutter.local_sgbd.lower() == 'mssql' -%}
+##
 ## SQL SERVER
-
+##
 DATABASES = {
     'default': {
         'ENGINE': 'sql_server.pyodbc',
-        'NAME': 'maparisco',
-        'USER': 'maparisco',
-        'PASSWORD': '$M@paR1$c0#',
-        'HOST': '10.128.24.10',
+        'NAME': env('MSSQL_DB'),
+        'USER': env('MSSQL_USER'),
+        'PASSWORD': env('MSSQL_PASSWORD'),
+        'HOST': env('MSSQL_HOST'),
         'PORT': '',
         'OPTIONS': {
             'driver': 'ODBC Driver 17 for SQL Server',
@@ -33,7 +33,7 @@ DATABASES = {
 
 {%- endif %}
 
-{% if cookiecutter.local_sgbd.lower() == 'sqlserver' -%}
+{% if cookiecutter.local_sgbd.lower() == 'postgres' -%}
 
 DATABASES = {
     'default': env.db('DATABASE_URL'),

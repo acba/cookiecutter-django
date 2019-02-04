@@ -2,7 +2,7 @@ FROM python:3.7-slim-stretch
 
 ENV PYTHONUNBUFFERED 1
 
-{% if cookiecutter.production_sgbd.lower() == 'sqlserver' %}
+{% if cookiecutter.production_sgbd.lower() == 'mssql' %}
 
 ##
 ## Necessario para instalar os drivers para o SQL Server

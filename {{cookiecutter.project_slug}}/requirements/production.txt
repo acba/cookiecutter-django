@@ -7,7 +7,7 @@ gunicorn==19.9.0  # https://github.com/benoitc/gunicorn
 django-redis==4.10.0  # https://github.com/niwinz/django-redis
 
 
-{% if cookiecutter.production_sgbd.lower() == 'sqlserver' %}
+{% if cookiecutter.production_sgbd.lower() == 'mssql' %}
 
 # Conexão MS SQL Server
 # ------------------------------------------------------------------------------

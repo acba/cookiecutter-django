@@ -6,7 +6,7 @@ ENV PYTHONUNBUFFERED 1
 RUN apt-get update \
     && apt-get install -y build-essential gcc python3-dev musl-dev
 
-{% if cookiecutter.local_sgbd.lower() == 'sqlserver' %}
+{% if cookiecutter.local_sgbd.lower() == 'mssql' %}
 
 ##
 ## Necessario para instalar os drivers para o SQL Server

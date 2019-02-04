@@ -176,6 +176,9 @@ def remove_docker_files():
 def remove_utility_files():
     shutil.rmtree(".scripts")
 
+def remove_postgres_prod_files():
+    shutil.rmtree("compose/production/postgres")
+
 def main():
     set_flags_in_envs(
         generate_random_user()
@@ -184,6 +187,9 @@ def main():
 
     if "{{ cookiecutter.use_docker }}".lower() == "n":
         remove_docker_files()
+
+    if "{{ cookiecutter.production_sgbd }}".lower() != "postgres":
+        remove_postgres_prod_files()
 
     print(SUCCESS + "Project initialized, keep up the good work!" + TERMINATOR)
 

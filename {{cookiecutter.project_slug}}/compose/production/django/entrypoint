@@ -9,6 +9,32 @@ set -o nounset
 export CELERY_BROKER_URL="${REDIS_URL}"
 
 
+{% if cookiecutter.production_sgbd.lower() == 'mssql' %}
+
+mssql_ready() {
+python << END
+import sys
+
+import pyodbc
+
+try:
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=${MSSQL_HOST};DATABASE=${MSSQL_DB};UID=${MSSQL_USER};PWD=${MSSQL_PASSWORD}')
+    cursor = cnxn.cursor()
+
+except e:
+    sys.exit(-1)
+sys.exit(0)
+
+END
+}
+until mssql_ready; do
+  >&2 echo 'Waiting for MSSQL to become available...'
+  sleep 1
+done
+>&2 echo 'MSSQL is available'
+
+{% endif %}
+
 {% if cookiecutter.production_sgbd.lower() == 'postgres' %}
 
 if [ -z "${POSTGRES_USER}" ]; then

@@ -8,12 +8,12 @@
   "version": "0.1.0",
   "timezone": "UTC",
   "local_sgbd": [
+    "mssql",
     "sqllite",
-    "sqlserver",
     "postgres"
   ],
   "production_sgbd": [
-    "sqlserver",
+    "mssql",
     "sqllite",
     "postgres"
   ],

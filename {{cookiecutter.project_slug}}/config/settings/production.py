@@ -5,7 +5,6 @@ from .base import env
 # GENERAL
 # ------------------------------------------------------------------------------
 SECRET_KEY = env('DJANGO_SECRET_KEY')
-
 ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['{{ cookiecutter.domain_name }}'])
 
 
@@ -42,22 +41,33 @@ SECURE_CONTENT_TYPE_NOSNIFF = env.bool('DJANGO_SECURE_CONTENT_TYPE_NOSNIFF', def
 INSTALLED_APPS += ['gunicorn']  # noqa F405
 
 
-{% if cookiecutter.production_sgbd.lower() == 'sqlserver' -%}
-#
+{% if cookiecutter.production_sgbd.lower() == 'mssql' -%}
+##
 ## SQL SERVER
+##
 
 DATABASES = {
     'default': {
         'ENGINE': 'sql_server.pyodbc',
-        'NAME': 'maparisco',
-        'USER': 'maparisco',
-        'PASSWORD': '$M@paR1$c0#',
-        'HOST': '10.128.24.10',
+        'NAME': env('MSSQL_DB'),
+        'USER': env('MSSQL_USER'),
+        'PASSWORD': env('MSSQL_PASSWORD'),
+        'HOST': env('MSSQL_HOST'),
         'PORT': '',
         'OPTIONS': {
             'driver': 'ODBC Driver 17 for SQL Server',
         },
     }
 }
+
+{%- endif %}
+
+
+{% if cookiecutter.local_sgbd.lower() == 'postgres' -%}
+
+DATABASES = {
+    'default': env.db('DATABASE_URL'),
+}
+DATABASES['default']['ATOMIC_REQUESTS'] = True
 
 {%- endif %}

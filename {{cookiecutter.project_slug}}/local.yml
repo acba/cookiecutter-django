@@ -13,6 +13,18 @@ services:
       {%- if cookiecutter.local_sgbd.lower() == 'postgres' %}
       - ./.envs/.local/.postgres
       {%- endif %}
+      {%- if cookiecutter.local_sgbd.lower() == 'mssql' %}
+      - ./.envs/.local/.mssql
+      {%- endif %}
+    {%- if cookiecutter.local_sgbd.lower() != 'sqllite' %}
+    depends_on:
+    {%- endif %}
+    {%- if cookiecutter.local_sgbd.lower() == 'postgres' %}
+      - postgres
+    {%- endif %}
+    {%- if cookiecutter.local_sgbd.lower() == 'mssql' %}
+      - mssql
+    {%- endif %}
     ports:
       - "8000:8000"
     command: /start
@@ -29,5 +41,20 @@ services:
       - local_postgres_data_backups:/backups
     env_file:
       - ./.envs/.local/.postgres
+
+{%- endif %}
+
+{%- if cookiecutter.local_sgbd.lower() == 'mssql' %}
+
+  mssql:
+    build:
+      context: .
+      dockerfile: ./compose/local/mssql/Dockerfile
+    image: {{ cookiecutter.project_slug }}_local_mssql
+    environment:
+      SA_PASSWORD: "!MSSQL2017_{{ cookiecutter.project_slug }}"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
 
 {%- endif %}

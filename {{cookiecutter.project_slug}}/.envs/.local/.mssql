@@ -1,0 +1,6 @@
+# Microsoft SQL Server
+# ------------------------------------------------------------------------------
+MSSQL_HOST=mssql
+MSSQL_DB=BD_{{cookiecutter.project_slug.upper()}}
+MSSQL_USER=sa
+MSSQL_PASSWORD=!MSSQL2017_{{ cookiecutter.project_slug }}
