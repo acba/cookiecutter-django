@@ -21,7 +21,7 @@ try:
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=${MSSQL_HOST};DATABASE=${MSSQL_DB};UID=${MSSQL_USER};PWD=${MSSQL_PASSWORD}')
     cursor = cnxn.cursor()
 
-except e:
+except pyodbc.ProgrammingError:
     sys.exit(-1)
 sys.exit(0)
 
