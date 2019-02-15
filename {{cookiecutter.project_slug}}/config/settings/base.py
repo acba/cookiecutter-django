@@ -206,7 +206,7 @@ MEDIA_ROOT = str(APPS_DIR('media'))
 # https://docs.djangoproject.com/en/2.1/ref/settings/#session-cookie-httponly
 SESSION_COOKIE_HTTPONLY = True
 CSRF_COOKIE_HTTPONLY = True
-SECURE_BROWSER_XSS_FILTER = True
+# SECURE_BROWSER_XSS_FILTER = True
 X_FRAME_OPTIONS = 'DENY'
 
 # ADMIN
