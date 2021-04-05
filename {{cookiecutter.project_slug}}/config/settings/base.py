@@ -47,7 +47,8 @@ DJANGO_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles'
+    'django.contrib.staticfiles',
+    "django.forms",
 ]
 THIRD_PARTY_APPS = [
     'crispy_forms',
@@ -55,6 +56,9 @@ THIRD_PARTY_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'rest_framework',
+    'rest_framework.authtoken',
+    'corsheaders',
+    'django_tables2'
 ]
 LOCAL_APPS = [
     'apps.{{ cookiecutter.project_slug }}.users.apps.UsersAppConfig',
@@ -83,7 +87,7 @@ AUTHENTICATION_BACKENDS = [
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
 AUTH_USER_MODEL = 'users.User'
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url
-LOGIN_REDIRECT_URL = 'users:redirect'
+LOGIN_REDIRECT_URL = '{{ cookiecutter.project_slug }}:home'
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-url
 LOGIN_URL = 'account_login'
 
@@ -92,11 +96,15 @@ LOGIN_URL = 'account_login'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     # 'django.middleware.csrf.CsrfViewMiddleware', # REST api falha com isso
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.common.BrokenLinkEmailsMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
@@ -110,9 +118,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            str(APPS_DIR.path('templates')),
-        ],
+        'DIRS': [str(APPS_DIR.path('templates'))],
         # 'APP_DIRS': True,
         'OPTIONS': {
             # https://docs.djangoproject.com/en/2.1/ref/settings/#template-debug
@@ -125,11 +131,11 @@ TEMPLATES = [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.i18n',
                 'django.template.context_processors.media',
                 'django.template.context_processors.static',
                 'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
             ],
         },
     },
@@ -160,25 +166,16 @@ PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.PBKDF2PasswordHasher',
     'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
     'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
-    'django.contrib.auth.hashers.BCryptPasswordHasher',
 ]
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
 # STATIC
@@ -191,7 +188,7 @@ STATICFILES_DIRS = (
     str(APPS_DIR.path('static')),
 )
 STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
+    # 'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
@@ -206,17 +203,15 @@ MEDIA_ROOT = str(APPS_DIR('media'))
 # https://docs.djangoproject.com/en/2.1/ref/settings/#session-cookie-httponly
 SESSION_COOKIE_HTTPONLY = True
 CSRF_COOKIE_HTTPONLY = True
-# SECURE_BROWSER_XSS_FILTER = True
-X_FRAME_OPTIONS = 'DENY'
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 # ADMIN
 # ------------------------------------------------------------------------------
 # Django Admin URL.
 ADMIN_URL = 'admin/'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#admins
-ADMINS = [
-    ("""{{cookiecutter.author_name}}""", '{{cookiecutter.email}}'),
-]
+ADMINS = [("""{{cookiecutter.author_name}}""", '{{cookiecutter.email}}')]
 # https://docs.djangoproject.com/en/2.1/ref/settings/#managers
 MANAGERS = ADMINS
 
@@ -224,9 +219,7 @@ MANAGERS = ADMINS
 # FIXTURES
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#fixture-dirs
-FIXTURE_DIRS = (
-    str(APPS_DIR.path('fixtures')),
-)
+FIXTURE_DIRS = (str(APPS_DIR.path('fixtures')))
 
 # http://django-crispy-forms.readthedocs.io/en/latest/install.html#template-packs
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -243,3 +236,18 @@ ACCOUNT_EMAIL_VERIFICATION = 'optional'
 ACCOUNT_ADAPTER = 'apps.{{cookiecutter.project_slug}}.users.adapters.AccountAdapter'
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 SOCIALACCOUNT_ADAPTER = 'apps.{{cookiecutter.project_slug}}.users.adapters.SocialAccountAdapter'
+
+# django-rest-framework
+# -------------------------------------------------------------------------------
+# django-rest-framework - https://www.django-rest-framework.org/api-guide/settings/
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+    ),
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+}
+
+# django-cors-headers - https://github.com/adamchainz/django-cors-headers#setup
+CORS_URLS_REGEX = r"^/api/.*$"
+

@@ -1,6 +1,6 @@
 {% raw %}
   {% load static i18n %}
-  {% load staticfiles %}
+  {% load static %}
 {% endraw %}
 
 <!DOCTYPE html>
@@ -20,6 +20,7 @@
     <link href="{% static 'css/bootstrap/v4.2.1/bootstrap.min.css' %}" rel="stylesheet">
     <!-- Material Design Bootstrap -->
     <link href="{% static 'css/mdb/v4.7.0/mdb.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
     <!-- Your custom styles (optional) -->
     <link href="{% static 'css/base/style.css' %}" rel="stylesheet">
 
@@ -193,6 +194,10 @@
     <script type="text/javascript" src="{% static 'js/bootstrap/v4.2.1/bootstrap.min.js' %}"></script>
     <!-- MDB core JavaScript -->
     <script type="text/javascript" src="{% static 'js/mdb/v4.7.0/mdb.min.js' %}"></script>
+    <!-- Datatable JavaScript -->
+    <script type="text/javascript" src="{% static 'js/datatables/jquery.dataTables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/datatables/dataTables.bootstrap4.min.js' %}"></script>
+
     <!-- Initializations -->
     <!-- <script type="text/javascript">
       // Animations initialization

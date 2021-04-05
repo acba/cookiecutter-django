@@ -1,22 +1,28 @@
+# PRECAUTION: avoid production dependencies that aren't in development
+
 -r ./base.txt
 
-gunicorn==19.9.0  # https://github.com/benoitc/gunicorn
+gunicorn==20.0.4  # https://github.com/benoitc/gunicorn
 
 # Django
 # ------------------------------------------------------------------------------
 django-redis==4.10.0  # https://github.com/niwinz/django-redis
 
 
-{% if cookiecutter.production_sgbd.lower() == 'mssql' %}
+{% if cookiecutter.local_sgbd.lower() == 'mssql' %}
 
 # Conexão MS SQL Server
 # ------------------------------------------------------------------------------
-pyodbc==4.0.24
-django-pyodbc-azure==2.1.0.0
+pyodbc==4.0.30
+django-mssql-backend==2.8.1
 
 {% endif %}
 
+{%- if cookiecutter.local_sgbd.lower() == 'postgres' %}
 
-{%- if cookiecutter.production_sgbd.lower() == 'postgres' %}
-psycopg2==2.7.4 --no-binary psycopg2  # https://github.com/psycopg/psycopg2
+# Conexão Postgres
+# ------------------------------------------------------------------------------
+
+psycopg2==2.8.6 # https://github.com/psycopg/psycopg2
+
 {%- endif %}
