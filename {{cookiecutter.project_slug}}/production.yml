@@ -6,19 +6,25 @@ volumes:
 services:
 
   redis:
-    image: redis:3.2
+    # restart: always
+    container_name: prod-redis
+    image: redis:6.0
 
-  django:
+  django: {% if cookiecutter.use_celery.lower() == 'y' %}&django{% endif %}
     build:
       context: .
       dockerfile: ./compose/production/django/Dockerfile
-    image: mapariscos_production_django
+    image: {{ cookiecutter.project_slug }}_production_django
+    container_name: prod-django
     depends_on:
       - redis
     volumes:
       - production_django:/app
     env_file:
       - ./.envs/.production/.django
+      {%- if cookiecutter.local_sgbd.lower() == 'mssql' %}
+      - ./.envs/.production/.mssql
+      {%- endif %}
       {%- if cookiecutter.local_sgbd.lower() == 'postgres' %}
       - ./.envs/.production/.postgres
       {%- endif %}
@@ -26,11 +32,36 @@ services:
       - "5000:5000"
     command: /start
 
+{% if cookiecutter.use_celery.lower() == 'y' %}
+  celeryworker:
+    <<: *django
+    container_name: prod-celeryworker
+    image: sophia_production_celeryworker
+    ports: []
+    command: /start-celeryworker
+
+  celerybeat:
+    <<: *django
+    container_name: prod-celerybeat
+    image: sophia_production_celerybeat
+    ports: []
+    command: /start-celerybeat
+
+  flower:
+    <<: *django
+    container_name: prod-flower
+    image: sophia_production_flower
+    ports:
+      - "5555:5555"
+    command: /start-flower
+{% endif %}
+
   nginx:
     build:
       context: .
       dockerfile: ./compose/production/nginx/Dockerfile
-    image: mapariscos_production_nginx
+    image: {{ cookiecutter.project_slug }}_production_nginx
+    container_name: prod-nginx
     depends_on:
       - django
     volumes:

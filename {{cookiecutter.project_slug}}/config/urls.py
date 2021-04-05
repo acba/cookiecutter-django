@@ -30,6 +30,12 @@ urlpatterns = [
     path("users/", include("apps.{{ cookiecutter.project_slug }}.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
 
+    {% if cookiecutter.use_celery.lower() == 'y' %}
+    # Celery progress
+	path('celery-progress/', include('celery_progress.urls')),
+    {% endif %}
+
+
     # Rotas principais
     path('', include('apps.{{ cookiecutter.project_slug }}.urls')),
 

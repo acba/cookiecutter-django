@@ -29,6 +29,23 @@ wheels/
 .installed.cfg
 *.egg
 
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
 ### VisualStudioCode template
 .vscode/*
 !.vscode/settings.json
@@ -51,3 +68,4 @@ ehthumbs_vista.db
 .ipython/
 
 *.sqlite3
+apps/{{ cookiecutter.project_slug }}/media/

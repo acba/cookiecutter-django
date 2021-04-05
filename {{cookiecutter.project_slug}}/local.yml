@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  django:
+  django: {% if cookiecutter.use_celery.lower() == 'y' %}&django{% endif %}
     build:
       context: .
       dockerfile: ./compose/local/django/Dockerfile
@@ -27,7 +27,6 @@ services:
     {%- endif %}
     ports:
       - "8000:8000"
-    command: /start
 
 {%- if cookiecutter.local_sgbd.lower() == 'postgres' %}
 
@@ -58,3 +57,43 @@ services:
       - "1433:1433"
 
 {%- endif %}
+
+{% if cookiecutter.use_celery.lower() == 'y' %}
+  redis:
+    image: redis:6.0
+    container_name: redis-dev
+
+  mailhog:
+    image: mailhog/mailhog:v1.0.0
+    container_name: mailhog-dev
+    ports:
+      - "8025:8025"
+
+  celeryworker:
+    <<: *django
+    image: sophia_local_celeryworker
+    container_name: celeryworker-dev
+    depends_on:
+      - redis
+      - mailhog
+    ports: []
+    command: /start-celeryworker
+
+  celerybeat:
+    <<: *django
+    image: sophia_local_celerybeat
+    container_name: celerybeat-dev
+    depends_on:
+      - redis
+      - mailhog
+    ports: []
+    command: /start-celerybeat
+
+  flower:
+    <<: *django
+    image: sophia_local_flower
+    container_name: flower-dev
+    ports:
+      - "5555:5555"
+    command: /start-flower
+{% endif %}

@@ -50,25 +50,40 @@ RUN apt-get update \
 RUN apt-get update \
     # Pillow dependencies
     && apt-get install -y libjpeg-dev zlib1g-dev libfreetype6-dev liblcms2-dev libtiff-dev tk-dev tcl-dev \
+     # Git
+    && apt-get install -y git \
     # CFFI dependencies
     && apt-get install -y libffi-dev \
     # Translations dependencies
     && apt-get install -y gettext \
     # Dependencia para o django ldap
-    && apt-get install -y libldap2-dev libsasl2-dev libssl-dev
+    && apt-get install -y libldap2-dev libsasl2-dev libssl-dev \
+    # cleaning up unused files
+    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
+    && rm -rf /var/lib/apt/lists/*
 
 # Requirements are installed here to ensure they will be cached.
 COPY ./requirements /requirements
 RUN pip install -r /requirements/local.txt
 
-COPY ./compose/production/django/entrypoint /entrypoint
-RUN sed -i 's/\r//' /entrypoint
-RUN chmod +x /entrypoint
-
 COPY ./compose/local/django/start /start
 RUN sed -i 's/\r//' /start
 RUN chmod +x /start
 
+{% if cookiecutter.use_celery.lower() == 'y' %}
+COPY ./compose/local/celery/worker/start /start-celeryworker
+RUN sed -i 's/\r$//g' /start-celeryworker
+RUN chmod +x /start-celeryworker
+
+COPY ./compose/local/celery/beat/start /start-celerybeat
+RUN sed -i 's/\r$//g' /start-celerybeat
+RUN chmod +x /start-celerybeat
+
+COPY ./compose/local/celery/flower/start /start-flower
+RUN sed -i 's/\r$//g' /start-flower
+RUN chmod +x /start-flower
+{% endif %}
+
 WORKDIR /app
 
-ENTRYPOINT ["/entrypoint"]
+CMD ["/start"]

@@ -17,5 +17,6 @@
     "sqllite",
     "postgres"
   ],
-  "use_docker": "y"
+  "use_docker": "y",
+  "use_celery": "n"
 }

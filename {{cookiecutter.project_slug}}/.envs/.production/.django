@@ -17,12 +17,6 @@ MAILGUN_API_KEY=
 DJANGO_SERVER_EMAIL=
 MAILGUN_DOMAIN=
 
-# AWS
-# ------------------------------------------------------------------------------
-DJANGO_AWS_ACCESS_KEY_ID=
-DJANGO_AWS_SECRET_ACCESS_KEY=
-DJANGO_AWS_STORAGE_BUCKET_NAME=
-
 # django-allauth
 # ------------------------------------------------------------------------------
 DJANGO_ACCOUNT_ALLOW_REGISTRATION=True
@@ -36,7 +30,14 @@ WEB_CONCURRENCY=4
 # ------------------------------------------------------------------------------
 REDIS_URL=redis://redis:6379/0
 
-# LDAP
+
+{% if cookiecutter.use_celery.lower() == 'y' %}
+# Celery
 # ------------------------------------------------------------------------------
-AD_SERVER_URL=ldap://10.128.0.20
-AD_DOMAIN=@intranet.mppb
+CELERY_BROKER_URL=redis://redis:6379/0
+
+# Flower
+# ------------------------------------------------------------------------------
+CELERY_FLOWER_USER=VbANxwmyqeHCflcMAoGFJoTgWTkFLRIN
+CELERY_FLOWER_PASSWORD=c0toS4ltF6uugEW10IrkjAyulRpErCvSeAlKaN13MRIDvhUeEWcFUl286r4YhLtI
+{% endif %}
