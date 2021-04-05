@@ -37,7 +37,7 @@ urlpatterns = [
 
 
     # Rotas principais
-    path('', include('apps.{{ cookiecutter.project_slug }}.urls')),
+    path('', include('apps.{{ cookiecutter.project_slug }}.urls', namespace='{{cookiecutter.project_slug.lower()}}')),
 
     # Rota Servidor REST
     path('api/', include('apps.api.urls')),

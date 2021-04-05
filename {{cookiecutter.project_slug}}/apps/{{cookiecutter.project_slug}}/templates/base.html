@@ -73,14 +73,14 @@
             <!-- Home -->
             {% raw %}
             <li>
-              <a href="{% url 'home' %}" class="collapsible-header waves-effect"><i class="fas fa-home"></i> Home</a>
+              <a href="{% url '{{cookiecutter.project_slug.lower()}}:home' %}" class="collapsible-header waves-effect"><i class="fas fa-home"></i> Home</a>
             </li>
             {% endraw %}
 
             {% raw %}
             {% block sidebar_items %}
             <li>
-              <a href="{% url 'home' %}" class="collapsible-header waves-effect"><i class="fas fa-chart-pie"></i> Dashboard</a>
+              <a href="{% url '{{cookiecutter.project_slug.lower()}}:home' %}" class="collapsible-header waves-effect"><i class="fas fa-chart-pie"></i> Dashboard</a>
             </li>
             {% endblock sidebar_items %}
             {% endraw %}

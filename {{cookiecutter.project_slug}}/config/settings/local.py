@@ -4,9 +4,8 @@ from .base import env
 
 # GENERAL
 # ------------------------------------------------------------------------------
-DEBUG = env.bool('DJANGO_DEBUG', default=True)
+DEBUG = True
 SECRET_KEY = env('DJANGO_SECRET_KEY', default='!!!SET DJANGO_SECRET_KEY!!!')
-
 ALLOWED_HOSTS = [
     "localhost",
     "0.0.0.0",

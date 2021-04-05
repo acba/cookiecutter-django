@@ -60,15 +60,15 @@
           {% raw %}
             {% if request.user.is_authenticated %}
               <li class="nav-item active">
-                <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{% url '{{cookiecutter.project_slug.lower()}}:home' %}">Home <span class="sr-only">(current)</span></a>
               </li>
             {% else %}
               <li class="nav-item active">
-                <a class="nav-link" href="{% url 'cover' %}">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{% url '{{cookiecutter.project_slug.lower()}}:cover' %}">Home <span class="sr-only">(current)</span></a>
               </li>
             {% endif %}
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'sobre' %}">Sobre</a>
+              <a class="nav-link" href="{% url '{{cookiecutter.project_slug.lower()}}:sobre' %}">Sobre</a>
             </li>
           {% endraw %}
         </ul>
